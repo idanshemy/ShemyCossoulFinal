@@ -23,7 +23,7 @@ public class Display {
 
 	// A map for storing colors for participants in the simulation
 	private Map<Object, Integer> colors;
-	private Map<Object, PImage> images;
+	
 
 	public Display(PApplet p, int x, int y, int w, int h) {
 		this.x = x;
@@ -33,7 +33,6 @@ public class Display {
 		this.p = p;
 
 		colors = new LinkedHashMap<Object, Integer>();
-		images = new LinkedHashMap<Object, PImage>();
 	}
 
 	public void drawGrid(int[][] f) {
@@ -68,5 +67,19 @@ public class Display {
 		} else {
 			return col;
 		}
+	}
+
+	public void setColor(int gridState, int color) {
+		colors.put(gridState, color);	
+	}
+
+	public void setNumCols(int numCols) {
+		rows = numCols;
+		dx = w / rows;
+	}
+	
+	public void setNumRows(int numRows) {
+		cols = numRows;
+		dy = h / cols;
 	}
 }

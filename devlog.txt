@@ -1,1 +1,11 @@
 Development Log
+
+Day 1 : 5/12/16
+- Added a dev log!
+- Followed several tutorials to create Graph framework, will not use
+- Decided to create 2D array instead
+
+Day 2: 5/16/16
+- Created a display class and are in the process of implementing the necessary methods
+- Created getters/setters for the grid class and started creating a template for path finding
+- Created Endpoint class
