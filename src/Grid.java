@@ -25,8 +25,9 @@ public class Grid {
 		return grid[r][c];
 	}
 	
-	public void blockSpace(int row, int col) {
-		grid[row][col] = BLOCKED; 
+	public void clearSquare(int row, int col) {
+		if (getState(row, col) != NOT_VISITED)
+			set(row, col, NOT_VISITED);
 	}
 	
 	public int getNumRows() {
