@@ -9,3 +9,8 @@ Day 2: 5/16/16
 - Created a display class and are in the process of implementing the necessary methods
 - Created getters/setters for the grid class and started creating a template for path finding
 - Created Endpoint class
+
+Day 3: 5/17/16
+- Deleted Endpoint class, changed it into an int variable instead. (Same for startpoint)
+- Started implementing a method for user placement of start, end, and block.
+- Finished a working display class.

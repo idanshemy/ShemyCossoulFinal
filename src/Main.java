@@ -6,14 +6,22 @@ public class Main extends PApplet {
 
 	Display display;
 	Grid grid;
-	int numRows = 20;
-	int numCols = 20;
+	int numRows = 25;
+	int numCols = 25;
 
-	int windowWidth = 640;
+	int windowWidth  = 640;
 	int windowHeight = 550;
 	
-	int displayWidth = 620, displayHeight = 530;
+	int displayWidth  = 620;
+	int displayHeight = 530;
 
+	boolean hasStart = false;
+	boolean hasEnd   = false;
+	
+	int endX = 0, endY = 0;
+	int startX = 0, startY = 0;
+	
+	
 	public void setup() {
 		size(windowWidth, windowHeight); // set the size of the screen.
 
@@ -40,11 +48,12 @@ public class Main extends PApplet {
 	public void draw() {
 		background(200);
 
+		//userClick();
 		display.drawGrid(grid.getGrid()); // display the game
 	}
 
 	
-	public int xPixelToIndex(int pixel, boolean isX) {
+	public int pixelToIndex(int pixel, boolean isX) {
 		int index = -1;
 		
 		if (isX) {
@@ -52,7 +61,7 @@ public class Main extends PApplet {
 			index = (int) (pixel/indexWidth);
 		} 
 		else {
-			double indexHeight = (double)(displayWidth)/(double)(grid.getNumRows());
+			double indexHeight = (double)(displayHeight)/(double)(grid.getNumRows());
 			index = (int) (pixel/indexHeight);
 		}
 		
@@ -60,21 +69,47 @@ public class Main extends PApplet {
 	}
 	
 	
-	public void userClick() {
-		if (mousePressed) {
+	public void mouseReleased() {
+		
+		//if (mousePressed) {
 			if (isInGrid(mouseX, mouseY)) {
+				int x = pixelToIndex(mouseX, true);
+				int y = pixelToIndex(mouseY, false);
+				
 				if (keyPressed) {
 					if (key == 'e' || key == 'E') {
-						grid.set(mouseX, mouseY, Grid.ENDPOINT);
+						if (hasEnd) {
+							grid.set(endY, endX, grid.NOT_VISITED);
+						}
+		
+						grid.set(y, x, Grid.ENDPOINT);
+						endX = x;
+						endY = y;
+						
+						hasEnd = true;
 					}
 					else if (key == 's' || key == 'S') {
-						grid.set(mouseX, mouseY, Grid.STARTPOINT);
+						if (hasStart) {
+							grid.set(startY, startX, grid.NOT_VISITED);
+						}
+		
+						grid.set(y, x, Grid.STARTPOINT);
+						startX = x;
+						startY = y;
+						
+						hasStart = true;
 					}
 				}
-				else grid.set(mouseX, mouseY, Grid.BLOCKED);
+				else {
+					if (grid.getState(y, x) == Grid.BLOCKED) 
+						grid.set(y, x, Grid.NOT_VISITED);
+					else
+						grid.set(y, x, Grid.BLOCKED);
+				}
 			}
 		}
-	}
+	//}
+	
 	
 	public boolean isInGrid(int x, int y) {
 		if (!(x >= 0 && x <= displayWidth)) 
