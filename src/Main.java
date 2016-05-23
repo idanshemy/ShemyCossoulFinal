@@ -5,9 +5,9 @@ import processing.core.PApplet;
 public class Main extends PApplet {
 
 	Display display;
-	Grid grid;
-	int numRows = 15;
-	int numCols = 15;
+	static Grid grid;
+	static int numRows = 15;
+	static int numCols = 15;
 
 	int windowWidth = 640;
 	int windowHeight = 550;
@@ -20,7 +20,8 @@ public class Main extends PApplet {
 
 	int endX = 0, endY = 0;
 	int startX = 0, startY = 0;
-
+	PathFinder p;
+	
 	public void setup() {
 		size(windowWidth, windowHeight); // set the size of the screen.
 
@@ -30,7 +31,9 @@ public class Main extends PApplet {
 		// parameters: (10,10) is upper left of display
 		// (620, 530) is the width and height
 		display = new Display(this, 10, 10, displayWidth, displayHeight);
-
+		
+		p = new PathFinder();
+		
 		// Set different grid values to different colors
 		display.setColor(Grid.NOT_VISITED, color(255, 255, 255));
 		display.setColor(Grid.BLOCKED, color(200, 200, 200));
@@ -45,11 +48,15 @@ public class Main extends PApplet {
 	@Override
 	public void draw() {
 		background(200);
-
-		// userClick();
+		
+		p.findPath();
 		display.drawGrid(grid.getGrid()); // display the game
 	}
 
+	public static Grid getGrid() {
+		return grid;
+	}
+	
 	public int pixelToIndex(int pixel, boolean isX) {
 		int index = -1;
 
@@ -73,22 +80,22 @@ public class Main extends PApplet {
 			if (keyPressed) {
 				if (key == 'e' || key == 'E') {
 					if (hasEnd) {
-						grid.set(endY, endX, grid.NOT_VISITED);
+						grid.set(grid.getEndY(), grid.getEndX(), grid.NOT_VISITED);
 					}
 
 					grid.set(y, x, Grid.ENDPOINT);
-					endX = x;
-					endY = y;
+					grid.setEndX(x);
+					grid.setEndY(y);
 
 					hasEnd = true;
 				} else if (key == 's' || key == 'S') {
 					if (hasStart) {
-						grid.set(startY, startX, grid.NOT_VISITED);
+						grid.set(grid.getStartY(), grid.getStartX(), grid.NOT_VISITED);
 					}
 
 					grid.set(y, x, Grid.STARTPOINT);
-					startX = x;
-					startY = y;
+					grid.setStartX(x);
+					grid.setStartY(y);
 
 					hasStart = true;
 				}
