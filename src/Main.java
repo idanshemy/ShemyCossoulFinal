@@ -6,8 +6,8 @@ public class Main extends PApplet {
 
 	Display display;
 	Grid grid;
-	int numRows = 25;
-	int numCols = 25;
+	int numRows = 15;
+	int numCols = 15;
 
 	int windowWidth = 640;
 	int windowHeight = 550;
