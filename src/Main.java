@@ -6,22 +6,20 @@ public class Main extends PApplet {
 
 	Display display;
 	static Grid grid;
-	static int numRows = 15;
-	static int numCols = 15;
+	static int numRows = 20;
+	static int numCols = 20;
 
 	int windowWidth = 640;
 	int windowHeight = 550;
 
-	int displayWidth = 620;
-	int displayHeight = 530;
+	static int displayWidth = 620;
+	static int displayHeight = 530;
 
 	boolean hasStart = false;
 	boolean hasEnd = false;
 
-	int endX = 0, endY = 0;
-	int startX = 0, startY = 0;
 	PathFinder p;
-	
+
 	public void setup() {
 		size(windowWidth, windowHeight); // set the size of the screen.
 
@@ -31,13 +29,13 @@ public class Main extends PApplet {
 		// parameters: (10,10) is upper left of display
 		// (620, 530) is the width and height
 		display = new Display(this, 10, 10, displayWidth, displayHeight);
-		
+
 		p = new PathFinder();
-		
+
 		// Set different grid values to different colors
 		display.setColor(Grid.NOT_VISITED, color(255, 255, 255));
 		display.setColor(Grid.BLOCKED, color(200, 200, 200));
-		display.setColor(Grid.VISITED, color(188, 208, 214));
+		display.setColor(Grid.VISITED, color(0, 0, 255));
 		display.setColor(Grid.ENDPOINT, color(255, 0, 0));
 		display.setColor(Grid.STARTPOINT, color(0, 255, 0));
 
@@ -48,16 +46,18 @@ public class Main extends PApplet {
 	@Override
 	public void draw() {
 		background(200);
-		
-		p.findPath();
+
+		if (hasStart && hasEnd) {
+			p.findPath();
+		}
 		display.drawGrid(grid.getGrid()); // display the game
 	}
 
 	public static Grid getGrid() {
 		return grid;
 	}
-	
-	public int pixelToIndex(int pixel, boolean isX) {
+
+	public static int pixelToIndex(int pixel, boolean isX) {
 		int index = -1;
 
 		if (isX) {
@@ -92,6 +92,7 @@ public class Main extends PApplet {
 					if (hasStart) {
 						grid.set(grid.getStartY(), grid.getStartX(), grid.NOT_VISITED);
 					}
+					
 
 					grid.set(y, x, Grid.STARTPOINT);
 					grid.setStartX(x);
@@ -104,16 +105,15 @@ public class Main extends PApplet {
 					grid.clearSquare(y, x);
 				else if (grid.getState(y, x) != grid.STARTPOINT && grid.getState(y, x) != grid.ENDPOINT)
 					grid.set(y, x, Grid.BLOCKED);
-			}			
+			}
 		}
 	}
 
-	
-	public boolean isInGrid(int x, int y) {
-		if (!(x >= 0 && x <= displayWidth))
+	public static boolean isInGrid(int y, int x) {
+		if (!(x >= 0 && x < displayWidth))
 			return false;
 
-		if (!(y >= 0 && y <= displayHeight))
+		if (!(y >= 0 && y < displayHeight))
 			return false;
 
 		else
