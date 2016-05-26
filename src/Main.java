@@ -6,8 +6,8 @@ public class Main extends PApplet {
 
 	Display display;
 	static Grid grid;
-	static int numRows = 20;
-	static int numCols = 20;
+	static int numRows = 15;
+	static int numCols = 15;
 
 	int windowWidth = 640;
 	int windowHeight = 550;
@@ -41,6 +41,7 @@ public class Main extends PApplet {
 
 		display.setNumCols(numCols);
 		display.setNumRows(numRows);
+		
 	}
 
 	@Override
@@ -48,8 +49,10 @@ public class Main extends PApplet {
 		background(200);
 
 		if (hasStart && hasEnd) {
+			p.findPath(grid.getStartX(), grid.getStartY());
 			p.findPath();
 		}
+		
 		display.drawGrid(grid.getGrid()); // display the game
 	}
 
@@ -93,11 +96,10 @@ public class Main extends PApplet {
 						grid.set(grid.getStartY(), grid.getStartX(), grid.NOT_VISITED);
 					}
 					
-
-					grid.set(y, x, Grid.STARTPOINT);
 					grid.setStartX(x);
 					grid.setStartY(y);
-
+					grid.set(grid.getStartY(), grid.getStartX(), Grid.STARTPOINT);
+										
 					hasStart = true;
 				}
 			} else {
